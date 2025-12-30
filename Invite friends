@@ -1,0 +1,6 @@
+local SocialService = game:GetService("SocialService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+
+SocialService:PromptGameInvite(player)
