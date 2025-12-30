@@ -1,0 +1,15 @@
+-- SERVICES
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Wait for character and humanoid
+local function getHumanoid()
+    local character = player.Character or player.CharacterAdded:Wait()
+    return character:WaitForChild("Humanoid")
+end
+
+local humanoid = getHumanoid()
+
+-- Restore jump and movement
+humanoid.JumpPower = 50     -- Default jump power
+humanoid.WalkSpeed = 16     -- Default walk speed
