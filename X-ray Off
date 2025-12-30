@@ -1,0 +1,5 @@
+for _, obj in ipairs(workspace:GetDescendants()) do
+	if obj:IsA("BasePart") then
+		obj.LocalTransparencyModifier = 0
+	end
+end
