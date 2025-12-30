@@ -1,0 +1,571 @@
+-- SERVICES
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local LocalizationService = game:GetService("LocalizationService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- =========================
+-- SCREEN GUI
+-- =========================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SpectreMobileGui"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = playerGui
+
+-- =========================
+-- DRAGGABLE OPENER (Frame + Label)
+-- =========================
+local Opener = Instance.new("Frame")
+Opener.Size = UDim2.new(0, 50, 0, 50)
+Opener.Position = UDim2.new(0, 20, 0.5, -25)
+Opener.BackgroundColor3 = Color3.fromRGB(0,0,0)
+Opener.BorderSizePixel = 0
+Opener.Parent = ScreenGui
+
+local OpenerCorner = Instance.new("UICorner")
+OpenerCorner.CornerRadius = UDim.new(0, 10)
+OpenerCorner.Parent = Opener
+
+local OpenerStroke = Instance.new("UIStroke")
+OpenerStroke.Parent = Opener
+OpenerStroke.Color = Color3.fromRGB(255,255,255)
+OpenerStroke.Thickness = 1
+
+local OpenerLabel = Instance.new("TextLabel")
+OpenerLabel.Parent = Opener
+OpenerLabel.Size = UDim2.new(1,0,1,0)
+OpenerLabel.BackgroundTransparency = 1
+OpenerLabel.Text = "S"
+OpenerLabel.TextScaled = true
+OpenerLabel.Font = Enum.Font.GothamBlack
+OpenerLabel.TextColor3 = Color3.fromRGB(255,255,255)
+
+-- =========================
+-- MAIN FRAME
+-- =========================
+local MainFrame = Instance.new("Frame")
+MainFrame.Parent = ScreenGui
+MainFrame.Size = UDim2.new(0, 520, 0, 260)
+MainFrame.Position = UDim2.new(0.5, -260, 0.5, -130)
+MainFrame.BackgroundColor3 = Color3.fromRGB(10,10,10)
+MainFrame.BorderSizePixel = 2
+MainFrame.BorderColor3 = Color3.fromRGB(120,120,120)
+MainFrame.Visible = false
+
+-- =========================
+-- TOP BAR
+-- =========================
+local TopBar = Instance.new("Frame")
+TopBar.Parent = MainFrame
+TopBar.Size = UDim2.new(1,0,0,36)
+TopBar.BackgroundColor3 = Color3.fromRGB(0,0,0)
+TopBar.BorderSizePixel = 0
+
+local Title = Instance.new("TextLabel")
+Title.Parent = TopBar
+Title.Size = UDim2.new(1, -40, 1, 0)
+Title.Position = UDim2.new(0,10,0,0)
+Title.Text = "Xx SpectreHub xX"
+Title.TextColor3 = Color3.fromRGB(255,255,255)
+Title.Font = Enum.Font.GothamBold
+Title.TextScaled = true
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.BackgroundTransparency = 1
+
+local Close = Instance.new("Frame")
+Close.Parent = TopBar
+Close.Size = UDim2.new(0,36,1,0)
+Close.Position = UDim2.new(1,-36,0,0)
+Close.BackgroundColor3 = Color3.fromRGB(0,0,0)
+Close.BorderSizePixel = 0
+
+local CloseStroke = Instance.new("UIStroke")
+CloseStroke.Parent = Close
+CloseStroke.Color = Color3.fromRGB(255,255,255)
+CloseStroke.Thickness = 1
+
+local CloseCorner = Instance.new("UICorner")
+CloseCorner.CornerRadius = UDim.new(0,6)
+CloseCorner.Parent = Close
+
+local CloseLabel = Instance.new("TextLabel")
+CloseLabel.Parent = Close
+CloseLabel.Size = UDim2.new(1,0,1,0)
+CloseLabel.BackgroundTransparency = 1
+CloseLabel.Text = "X"
+CloseLabel.TextColor3 = Color3.fromRGB(255,255,255)
+CloseLabel.Font = Enum.Font.GothamBold
+CloseLabel.TextScaled = true
+
+local TitleLine = Instance.new("Frame")
+TitleLine.Parent = MainFrame
+TitleLine.Size = UDim2.new(1,0,0,1)
+TitleLine.Position = UDim2.new(0,0,0,36)
+TitleLine.BackgroundColor3 = Color3.fromRGB(255,255,255)
+TitleLine.BorderSizePixel = 0
+
+-- =========================
+-- SIDEBAR
+-- =========================
+local Sidebar = Instance.new("Frame")
+Sidebar.Parent = MainFrame
+Sidebar.Position = UDim2.new(0,0,0,37)
+Sidebar.Size = UDim2.new(0,120,1,-37)
+Sidebar.BackgroundColor3 = Color3.fromRGB(0,0,0)
+Sidebar.BorderSizePixel = 0
+
+local function SidebarButton(text,index)
+    local btn = Instance.new("Frame")
+    btn.Parent = Sidebar
+    btn.Size = UDim2.new(1,-10,0,30)
+    btn.Position = UDim2.new(0,5,0,8 + index*32)
+    btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
+    btn.BorderSizePixel = 0
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Parent = btn
+    stroke.Color = Color3.fromRGB(255,255,255)
+    stroke.Thickness = 1
+
+    local corner = Instance.new("UICorner")
+    corner.Parent = btn
+    corner.CornerRadius = UDim.new(0,6)
+
+    local label = Instance.new("TextLabel")
+    label.Parent = btn
+    label.Size = UDim2.new(1,0,1,0)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = Color3.fromRGB(255,255,255)
+    label.Font = Enum.Font.Gotham
+    label.TextScaled = true
+
+    return btn
+end
+
+local btnHome = SidebarButton("Home",0)
+local btnMain = SidebarButton("Main",1)
+local btnSpectre = SidebarButton("SpectreScript",2)
+local btnOther = SidebarButton("Other",3)
+local btnGameHub = SidebarButton("GameHub",4)
+local btnInfo = SidebarButton("Information",5)
+
+-- =========================
+-- CONTENT AREA
+-- =========================
+local Content = Instance.new("Frame")
+Content.Parent = MainFrame
+Content.Position = UDim2.new(0,130,0,46)
+Content.Size = UDim2.new(1,-140,1,-56)
+Content.BackgroundTransparency = 1
+
+-- =========================
+-- TABS
+-- =========================
+local Tabs = {}
+local function CreateTab(name)
+    local frame = Instance.new("Frame")
+    frame.Parent = Content
+    frame.Size = UDim2.new(1,0,1,0)
+    frame.BackgroundTransparency = 1
+    frame.Visible = false
+    Tabs[name] = frame
+    return frame
+end
+
+CreateTab("Home")
+CreateTab("Main")
+CreateTab("SpectreScript")
+CreateTab("Other")
+CreateTab("GameHub")
+CreateTab("Information")
+
+-- =========================
+-- COUNTRY MAP
+-- =========================
+local countryMap = {
+ ["US"] = "United States",
+ ["PH"] = "Philippines",
+ ["IN"] = "India",
+ ["BD"] = "Bangladesh",
+ ["GB"] = "United Kingdom",
+}
+
+-- =========================
+-- PLAYER INFO ON HOME TAB
+-- =========================
+local homeTab = Tabs["Home"]
+
+local PlayerInfoFrame = Instance.new("Frame")
+PlayerInfoFrame.Parent = homeTab
+PlayerInfoFrame.Size = UDim2.new(0, 300, 0, 180)
+PlayerInfoFrame.Position = UDim2.new(0, 10, 0, 10)
+PlayerInfoFrame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+PlayerInfoFrame.BorderSizePixel = 0
+
+local PlayerInfoStroke = Instance.new("UIStroke")
+PlayerInfoStroke.Parent = PlayerInfoFrame
+PlayerInfoStroke.Color = Color3.fromRGB(255,255,255)
+PlayerInfoStroke.Thickness = 1
+
+local PlayerInfoCorner = Instance.new("UICorner")
+PlayerInfoCorner.Parent = PlayerInfoFrame
+PlayerInfoCorner.CornerRadius = UDim.new(0,10)
+
+local function CreateLabel(parent, posY)
+    local lbl = Instance.new("TextLabel")
+    lbl.Parent = parent
+    lbl.Size = UDim2.new(1, -10, 0, 30)
+    lbl.Position = UDim2.new(0, 5, 0, posY)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Color3.fromRGB(255,255,255)
+    lbl.Font = Enum.Font.Gotham
+    lbl.TextScaled = true
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    return lbl
+end
+
+local usernameLabel = CreateLabel(PlayerInfoFrame, 5)
+local userIdLabel = CreateLabel(PlayerInfoFrame, 40)
+local accountAgeLabel = CreateLabel(PlayerInfoFrame, 75)
+local countryLabel = CreateLabel(PlayerInfoFrame, 110)
+
+local function CountryCodeToFlag(code)
+    if not code then return "" end
+    local flag = ""
+    for i = 1, #code do
+        local c = code:sub(i,i):upper()
+        flag = flag .. utf8.char(127397 + string.byte(c))
+    end
+    return flag
+end
+
+local function UpdatePlayerInfo()
+    usernameLabel.Text = "Username: " .. player.Name
+    userIdLabel.Text = "UserId: " .. player.UserId
+    accountAgeLabel.Text = "Account Age: " .. math.floor(player.AccountAge) .. " days"
+    local success, countryCode = pcall(function()
+        return LocalizationService:GetCountryRegionForPlayerAsync(player)
+    end)
+    if success then
+        local countryName = countryMap[countryCode] or "Unknown"
+        local flag = CountryCodeToFlag(countryCode)
+        countryLabel.Text = "Country: " .. flag .. " " .. countryName
+    else
+        countryLabel.Text = "Country: Unknown"
+    end
+end
+
+UpdatePlayerInfo()
+RunService.RenderStepped:Connect(UpdatePlayerInfo)
+
+-- =========================
+-- INFORMATION TAB
+-- =========================
+local infoTab = Tabs["Information"]
+
+local infoText = Instance.new("TextLabel")
+infoText.Parent = infoTab
+infoText.Size = UDim2.new(1, -20, 1, -20)
+infoText.Position = UDim2.new(0, 10, 0, 10)
+infoText.BackgroundTransparency = 1
+infoText.TextColor3 = Color3.fromRGB(255,255,255)
+infoText.Font = Enum.Font.Gotham
+infoText.TextScaled = true
+infoText.TextWrapped = true
+infoText.Text = "Created in Tuesday, December 30, 2025, Created due to Ghosthub adding a Key And Inspired by the script Ghosthub"
+infoText.TextXAlignment = Enum.TextXAlignment.Left
+infoText.TextYAlignment = Enum.TextYAlignment.Top
+
+-- =========================
+-- SCRIPT BUTTONS TABLES
+-- =========================
+local MainScripts = {
+    {Name="WalkSpeed 100", Code=[[game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100]]},
+    {Name="JumpPower 150", Code=[[game.Players.LocalPlayer.Character.Humanoid.JumpPower = 150]]},
+    {Name="Infinite Jump", Code=[[
+        local UserInputService = game:GetService("UserInputService")
+        UserInputService.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.Space then
+                local plr = game.Players.LocalPlayer
+                local char = plr.Character
+                if char and char:FindFirstChild("Humanoid") then
+                    char.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                end
+            end
+        end)
+    ]]},
+    {Name="Noclip On", Code=[[
+        local plr = game.Players.LocalPlayer
+        local function noclipLoop()
+            for _, part in pairs(plr.Character:GetDescendants()) do
+                if part:IsA("BasePart") then part.CanCollide = false end
+            end
+        end
+        noclipLoop()
+        game:GetService("RunService").Stepped:Connect(noclipLoop)
+    ]]},
+    {Name="Freeze Character", Code=[[
+        local plr = game.Players.LocalPlayer
+        for _, part in pairs(plr.Character:GetDescendants()) do
+            if part:IsA("BasePart") then part.Anchored = true end
+        end
+    ]]},
+    {Name="Reset Character", Code=[[game.Players.LocalPlayer:LoadCharacter()]]},
+    {Name="Remove Fog", Code=[[
+        game.Lighting.FogEnd = 100000
+        game.Lighting.FogStart = 0
+    ]]},
+    {Name="Equip All Tools", Code=[[
+        local plr = game.Players.LocalPlayer
+        for _, tool in pairs(plr.Backpack:GetChildren()) do
+            if tool:IsA("Tool") then tool.Parent = plr.Character end
+        end
+    ]]},
+    {Name="Unequip All Tools", Code=[[
+        local plr = game.Players.LocalPlayer
+        for _, tool in pairs(plr.Character:GetChildren()) do
+            if tool:IsA("Tool") then tool.Parent = plr.Backpack end
+        end
+    ]]},
+    {Name="Drop All Tools", Code=[[
+        local plr = game.Players.LocalPlayer
+        for _, tool in pairs(plr.Backpack:GetChildren()) do
+            if tool:IsA("Tool") then tool.Parent = workspace end
+        end
+    ]]},
+    {Name="Set Time to Night", Code=[[game.Lighting.TimeOfDay = "00:00:00"]]},
+    {Name="Set Time to Day", Code=[[game.Lighting.TimeOfDay = "12:00:00"]]},
+    {Name="Remove Materials & Shadows", Code=[[
+        for _, obj in pairs(workspace:GetDescendants()) do
+            if obj:IsA("BasePart") then
+                obj.Material = Enum.Material.SmoothPlastic
+                obj.Reflectance = 0
+            end
+        end
+        game.Lighting.GlobalShadows = false
+    ]]}
+}
+
+local SpectreScripts = {
+    {Name="Custom Emote 1", Code=[[print("Emote 1 executed")]]},
+    {Name="Custom Emote 2", Code=[[print("Emote 2 executed")]]},
+    {Name="Custom Emote 3", Code=[[print("Emote 3 executed")]]},
+}
+
+local OtherScripts = {
+    {Name="Join Rejoin", Code=[[game.Players.LocalPlayer:Kick("Rejoining...")]]},
+    {Name="Leave Game", Code=[[game.Players.LocalPlayer:Kick()]]},
+}
+
+local GameHubScripts = {
+    {Name="Open Invite Page", Code=[[print("Invite Page Opened")]]},
+    {Name="Disable Chat", Code=[[game:GetService("Players").LocalPlayer.PlayerGui.Chat.Frame.Visible = false]]},
+}
+
+-- =========================
+-- PAGINATED BUTTON FUNCTION
+-- =========================
+function SetupTabButtons(tabFrame,scripts)
+    local pageButtons = {}
+    local currentPage = 1
+    local buttonsPerPage = 24
+    local gridRows, gridColumns, padding = 4,6,8
+    local nextButtonSize = Vector2.new(50,25)
+
+    local function DrawPage(page)
+        for _,btn in pairs(pageButtons) do btn:Destroy() end
+        pageButtons = {}
+        local startIdx = (page-1)*buttonsPerPage + 1
+        local endIdx = math.min(startIdx + buttonsPerPage -1, #scripts)
+        local totalWidth, totalHeight = tabFrame.AbsoluteSize.X, tabFrame.AbsoluteSize.Y
+        local buttonWidth = (totalWidth - (gridColumns+1)*padding - nextButtonSize.X - padding)/gridColumns
+        local buttonHeight = (totalHeight - (gridRows+1)*padding - nextButtonSize.Y - padding)/gridRows
+
+        for idx=startIdx,endIdx do
+            local scriptInfo = scripts[idx]
+            local row = math.floor((idx-startIdx)/gridColumns)
+            local col = (idx-startIdx)%gridColumns
+            local btn = Instance.new("Frame")
+            btn.Parent = tabFrame
+            btn.Size = UDim2.new(0,buttonWidth,0,buttonHeight)
+            btn.Position = UDim2.new(0,padding+col*(buttonWidth+padding),0,padding+row*(buttonHeight+padding))
+            btn.BackgroundColor3 = Color3.fromRGB(0,0,0)
+            btn.BorderSizePixel = 0
+
+            local stroke = Instance.new("UIStroke")
+            stroke.Parent = btn
+            stroke.Color = Color3.fromRGB(255,255,255)
+            stroke.Thickness = 1
+
+            local corner = Instance.new("UICorner")
+            corner.Parent = btn
+            corner.CornerRadius = UDim.new(0,8)
+
+            local label = Instance.new("TextLabel")
+            label.Parent = btn
+            label.Size = UDim2.new(1,0,1,0)
+            label.BackgroundTransparency = 1
+            label.Text = scriptInfo.Name
+            label.TextColor3 = Color3.fromRGB(255,255,255)
+            label.Font = Enum.Font.Gotham
+            label.TextScaled = true
+
+            btn.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                    loadstring(scriptInfo.Code)()
+                end
+            end)
+
+            table.insert(pageButtons,btn)
+        end
+    end
+
+    local NextButton = Instance.new("Frame")
+    NextButton.Parent = tabFrame
+    NextButton.Size = UDim2.new(0,nextButtonSize.X,0,nextButtonSize.Y)
+    NextButton.AnchorPoint = Vector2.new(1,1)
+    NextButton.Position = UDim2.new(1,-padding,1,-padding)
+    NextButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+    NextButton.BorderSizePixel = 0
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Parent = NextButton
+    stroke.Color = Color3.fromRGB(255,255,255)
+    stroke.Thickness = 1
+
+    local corner = Instance.new("UICorner")
+    corner.Parent = NextButton
+    -- Continue corner setup
+    corner.CornerRadius = UDim.new(0,6)
+
+local nextLabel = Instance.new("TextLabel")
+nextLabel.Parent = NextButton
+nextLabel.Size = UDim2.new(1,0,1,0)
+nextLabel.BackgroundTransparency = 1
+nextLabel.Text = "Next"
+nextLabel.TextColor3 = Color3.fromRGB(255,255,255)
+nextLabel.Font = Enum.Font.Gotham
+nextLabel.TextScaled = true
+
+NextButton.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if currentPage * buttonsPerPage < #scripts then
+            currentPage = currentPage + 1
+            DrawPage(currentPage)
+        else
+            currentPage = 1
+            DrawPage(currentPage)
+        end
+    end
+end)
+
+DrawPage(currentPage)
+end
+
+-- =========================
+-- SETUP ALL TABS WITH SCRIPTS
+-- =========================
+SetupTabButtons(Tabs["Main"], MainScripts)
+SetupTabButtons(Tabs["SpectreScript"], SpectreScripts)
+SetupTabButtons(Tabs["Other"], OtherScripts)
+SetupTabButtons(Tabs["GameHub"], GameHubScripts)
+
+-- =========================
+-- TAB BUTTON FUNCTIONALITY
+-- =========================
+local function ShowTab(tabName)
+    for name, frame in pairs(Tabs) do
+        frame.Visible = false
+    end
+    Tabs[tabName].Visible = true
+end
+
+btnHome.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        ShowTab("Home")
+    end
+end)
+btnMain.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        ShowTab("Main")
+    end
+end)
+btnSpectre.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        ShowTab("SpectreScript")
+    end
+end)
+btnOther.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        ShowTab("Other")
+    end
+end)
+btnGameHub.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        ShowTab("GameHub")
+    end
+end)
+btnInfo.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        ShowTab("Information")
+    end
+end)
+
+-- =========================
+-- OPENER TOGGLE
+-- =========================
+Opener.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        MainFrame.Visible = not MainFrame.Visible
+    end
+end)
+
+-- =========================
+-- CLOSE BUTTON
+-- =========================
+Close.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        MainFrame.Visible = false
+    end
+end)
+
+-- =========================
+-- MAKE OPENER DRAGGABLE
+-- =========================
+local dragging, dragInput, dragStart, startPos
+
+Opener.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        dragStart = input.Position
+        startPos = Opener.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+Opener.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - dragStart
+        Opener.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+-- =========================
+-- SHOW HOME TAB BY DEFAULT
+-- =========================
+ShowTab("Home")
