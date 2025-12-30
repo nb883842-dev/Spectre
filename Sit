@@ -1,0 +1,12 @@
+local player = game.Players.LocalPlayer
+
+local function sitCharacter()
+    local character = player.Character or player.CharacterAdded:Wait()
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        humanoid.Sit = true
+    end
+end
+
+-- Example usage:
+sitCharacter()  -- Makes your character sit
