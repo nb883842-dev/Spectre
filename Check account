@@ -1,0 +1,58 @@
+-- SERVICES
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "AccountAgeGui"
+screenGui.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 150, 0, 80) -- small height
+frame.Position = UDim2.new(1, 0, 0.6, -40) -- start off-screen
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+frame.Parent = screenGui
+
+-- Account Age Text (number only)
+local ageLabel = Instance.new("TextLabel")
+ageLabel.Size = UDim2.new(1, -10, 1, -20)
+ageLabel.Position = UDim2.new(0, 5, 0, 10)
+ageLabel.BackgroundTransparency = 1
+ageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+ageLabel.Font = Enum.Font.SourceSansBold
+ageLabel.TextScaled = true
+ageLabel.Text = tostring(player.AccountAge) -- DAYS
+ageLabel.Parent = frame
+
+-- Slide In
+local slideTween = TweenService:Create(
+	frame,
+	TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+	{ Position = UDim2.new(0.8, 0, 0.6, -40) } -- partially visible
+)
+slideTween:Play()
+
+-- Fade Away after slide
+slideTween.Completed:Connect(function()
+	task.wait(1)
+
+	local fadeFrame = TweenService:Create(
+		frame,
+		TweenInfo.new(1),
+		{ BackgroundTransparency = 1 }
+	)
+
+	local fadeText = TweenService:Create(
+		ageLabel,
+		TweenInfo.new(1),
+		{ TextTransparency = 1 }
+	)
+
+	fadeFrame:Play()
+	fadeText:Play()
+end)
