@@ -1,0 +1,15 @@
+-- SERVICES
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Wait for character and humanoid
+local function getHumanoid()
+    local character = player.Character or player.CharacterAdded:Wait()
+    return character:WaitForChild("Humanoid")
+end
+
+local humanoid = getHumanoid()
+
+-- Disable jump and movement
+humanoid.JumpPower = 0      -- Disable jumping
+humanoid.WalkSpeed = 0      -- Disable walking/running
