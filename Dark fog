@@ -1,0 +1,10 @@
+-- SERVICES
+local Lighting = game:GetService("Lighting")
+
+-- Dark Mode settings
+Lighting.ClockTime = 0            -- Night time
+Lighting.Brightness = 0.3         -- Dim overall brightness
+Lighting.GlobalShadows = true     -- Keep shadows
+Lighting.FogEnd = 200             -- Slight fog for darkness
+Lighting.Ambient = Color3.fromRGB(20, 20, 20)        -- Dark ambient light
+Lighting.OutdoorAmbient = Color3.fromRGB(20, 20, 20) -- Dark outdoor light
