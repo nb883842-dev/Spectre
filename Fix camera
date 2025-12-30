@@ -1,0 +1,31 @@
+-- Camera Refresh Script
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+local function refreshCamera()
+    local character = player.Character
+    if not character then return end
+    local humanoid = character:FindFirstChildOfClass("Humanoid")
+    if not humanoid then return end
+    
+    -- Temporarily set camera to scriptable to refresh
+    camera.CameraType = Enum.CameraType.Scriptable
+    camera.CameraSubject = nil
+    wait(0.1)
+    
+    -- Restore camera to follow humanoid
+    camera.CameraSubject = humanoid
+    camera.CameraType = Enum.CameraType.Custom
+end
+
+-- Initial refresh
+refreshCamera()
+
+-- Refresh on respawn
+player.CharacterAdded:Connect(function()
+    wait(0.2)
+    refreshCamera()
+end)
