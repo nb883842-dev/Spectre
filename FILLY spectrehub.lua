@@ -270,50 +270,71 @@ infoText.Text = "Created in Tuesday, December 30, 2025, Created due to Ghosthub 
 -- =========================
 -- MAIN TAB BUTTONS WITH PAGINATION
 -- =========================
-local mainScripts = {
-    {Name="Inf Jump", Code='loadstring(game:HttpGet("https://pastefy.app/Yub5N7Xs/raw"))()'},
-    {Name="Walkspeed", Code='loadstring(game:HttpGet("https://pastefy.app/Uo8ECEnR/raw"))()'},
-    {Name="Jump Power", Code='loadstring(game:HttpGet("https://pastefy.app/rwjw9lvq/raw"))()'},
-    {Name="Rejoin", Code='loadstring(game:HttpGet("https://pastefy.app/TNc7kd6e/raw"))()'},
-    {Name="Anti AFK", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()'},
-    {Name="Anti Lag", Code='loadstring(game:HttpGet("https://pastefy.app/nDORd4jk/raw"))()'},
-    {Name="Anti Kick", Code='loadstring(game:HttpGet("https://pastefy.app/3v88pb4M/raw"))()'},
-    {Name="Anti Ban", Code='loadstring(game:HttpGet("https://pastefy.app/9hDSfrdK/raw"))()'},
-    {Name="Night", Code='loadstring(game:HttpGet("https://pastefy.app/0M8wi3S3/raw"))()'},
-    {Name="Day", Code='loadstring(game:HttpGet("https://pastefy.app/HLXTNAkt/raw"))()'},
-    {Name="Equip Tools", Code='loadstring(game:HttpGet("https://pastefy.app/bX4o4R7Y/raw"))()'},
-    {Name="Unequip Tools", Code='loadstring(game:HttpGet("https://pastefy.app/4WXvZDNC/raw"))()'},
-    {Name="Drop Tools", Code='loadstring(game:HttpGet("https://pastefy.app/qzoUsv0S/raw"))()'},
-    {Name="Check Health", Code='loadstring(game:HttpGet("https://pastefy.app/W3h3JZwZ/raw"))()'},
-    {Name="Show Invisible", Code='loadstring(game:HttpGet("https://pastefy.app/hIEGibOY/raw"))()'},
-    {Name="Hide Invisible", Code='loadstring(game:HttpGet("https://pastefy.app/mGOBI8nd/raw"))()'},
-    {Name="Reset", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Reset/refs/heads/main/Reset"))()'},
-    {Name="Goto Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Goto-cam/refs/heads/main/Goto%20Cam"))()'},
-    {Name="On X-ray", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/x-ray%20ON"))()'},
-    {Name="Off X-ray", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/X-ray%20Off"))()'},
-    {Name="Disable Chat", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Chat"))()'},
-    {Name="Enable Chat", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Chat"))()'},
-    {Name="Check Account", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Check%20account"))()'},
-    {Name="Invite Friends", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Invite%20friends"))()'},
-    {Name="Leave", Code='game:Shutdown()'},
-    {Name="Spawn Part", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Spawn%20Part"))()'},
-    {Name="Noclip", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Noclip"))()'},
-    {Name="Unclip", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Noclip"))()'},
-    {Name="Disable Jump", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Jump"))()'},
-    {Name="Enable Jump", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Jump"))()'},
-    {Name="Disable Control", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Control"))()'},
-    {Name="Enable Control", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Control"))()'},
-    {Name="Serverhop", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Serverhop"))()'},
-    {Name="Super Zoom", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Super%20zoom"))()'},
-    {Name="Full Brightness", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Full%20brightness"))()'},
-    {Name="Enable Dark Fog", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Dark%20fog"))()'},
-    {Name="Disable Dark Fog", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Dark%20Fog%20Off"))()'},
-    {Name="Sit Character", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Sit"))()'},
-    {Name="Count Players", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Count%20Players"))()'},
-    {Name="Freeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Freeze"))()'},
-    {Name="Unfreeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Unfreeze"))()'},
-    {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Fix%20camera"))()'},
-}
+local allScripts = {
+    Main = {
+        {Name="Inf Jump", Code='loadstring(game:HttpGet("https://pastefy.app/Yub5N7Xs/raw"))()'},
+        {Name="Walkspeed", Code='loadstring(game:HttpGet("https://pastefy.app/Uo8ECEnR/raw"))()'},
+        {Name="Jump Power", Code='loadstring(game:HttpGet("https://pastefy.app/rwjw9lvq/raw"))()'},
+        {Name="Rejoin", Code='loadstring(game:HttpGet("https://pastefy.app/TNc7kd6e/raw"))()'},
+        {Name="Anti AFK", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/evxncodes/mainroblox/main/anti-afk", true))()'},
+        {Name="Anti Lag", Code='loadstring(game:HttpGet("https://pastefy.app/nDORd4jk/raw"))()'},
+        {Name="Anti Kick", Code='loadstring(game:HttpGet("https://pastefy.app/3v88pb4M/raw"))()'},
+        {Name="Anti Ban", Code='loadstring(game:HttpGet("https://pastefy.app/9hDSfrdK/raw"))()'},
+        {Name="Night", Code='loadstring(game:HttpGet("https://pastefy.app/0M8wi3S3/raw"))()'},
+        {Name="Day", Code='loadstring(game:HttpGet("https://pastefy.app/HLXTNAkt/raw"))()'},
+        {Name="Equip Tools", Code='loadstring(game:HttpGet("https://pastefy.app/bX4o4R7Y/raw"))()'},
+        {Name="Unequip Tools", Code='loadstring(game:HttpGet("https://pastefy.app/4WXvZDNC/raw"))()'},
+        {Name="Drop Tools", Code='loadstring(game:HttpGet("https://pastefy.app/qzoUsv0S/raw"))()'},
+        {Name="Check Health", Code='loadstring(game:HttpGet("https://pastefy.app/W3h3JZwZ/raw"))()'},
+        {Name="Show Invisible", Code='loadstring(game:HttpGet("https://pastefy.app/hIEGibOY/raw"))()'},
+        {Name="Hide Invisible", Code='loadstring(game:HttpGet("https://pastefy.app/mGOBI8nd/raw"))()'},
+        {Name="Reset", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Reset/refs/heads/main/Reset"))()'},
+        {Name="Goto Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Goto-cam/refs/heads/main/Goto%20Cam"))()'},
+        {Name="On X-ray", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/x-ray%20ON"))()'},
+        {Name="Off X-ray", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/X-ray%20Off"))()'},
+        {Name="Disable Chat", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Chat"))()'},
+        {Name="Enable Chat", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Chat"))()'},
+        {Name="Check Account", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Check%20account"))()'},
+        {Name="Invite Friends", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Invite%20friends"))()'},
+        {Name="Leave", Code='game:Shutdown()'},
+        {Name="Spawn Part", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Spawn%20Part"))()'},
+        {Name="Noclip", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Noclip"))()'},
+        {Name="Unclip", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Noclip"))()'},
+        {Name="Disable Jump", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Jump"))()'},
+        {Name="Enable Jump", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Jump"))()'},
+        {Name="Disable Control", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Disable%20Control"))()'},
+        {Name="Enable Control", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Enable%20Control"))()'},
+        {Name="Serverhop", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Serverhop"))()'},
+        {Name="Super Zoom", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Super%20zoom"))()'},
+        {Name="Full Brightness", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Full%20brightness"))()'},
+        {Name="Enable Dark Fog", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Dark%20fog"))()'},
+        {Name="Disable Dark Fog", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Dark%20Fog%20Off"))()'},
+        {Name="Sit Character", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Sit"))()'},
+        {Name="Count Players", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Count%20Players"))()'},
+        {Name="Freeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Freeze"))()'},
+        {Name="Unfreeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Unfreeze"))()'},
+        {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Fix%20camera"))()'},
+    },
+    SpectreScript = {
+        {Name="Freeze Animation", Code="-- Work in Progress"},
+        {Name="Unfreeze Animation", Code="-- Work in Progress"},
+        {Name="Enable Swim", Code="-- Work in Progress"},
+        {Name="Disable Swim", Code="-- Work in Progress"},
+        {Name="Enable Spawnpoint", Code="-- Work in Progress"},
+        {Name="Disable Spawnpoint", Code="-- Work in Progress"},
+        {Name="Enable Reset", Code="-- Work in Progress"},
+        {Name="Disable Reset", Code="-- Work in Progress"},
+        {Name="Enable Hide GUI", Code="-- Work in Progress"},
+        {Name="Disable Hide GUI", Code="-- Work in Progress"},
+        {Name="Remove Face", Code="-- Work in Progress"},
+        {Name="Remove Arms", Code="-- Work in Progress"},
+        {Name="Remove Legs", Code="-- Work in Progress"},
+        {Name="Choose Player", Code="-- Work in Progress"},
+        {Name="Tool Name", Code="-- Work in Progress"},
+        {Name="God Mode", Code="-- Work in Progress"},
+        {Name="Change to R15", Code="-- Work in Progress"},
+        {Name="Change to R6", Code="-- Work in Progress"},
+    },
 
 -- =========================
 -- PAGINATION VARIABLES
@@ -324,7 +345,7 @@ local currentPage = 1
 local pageButtons = {}
 
 -- =========================
--- DRAW PAGE FUNCTION (FIXED)
+-- DRAW PAGE FUNCTION (FULL FIXED)
 local function DrawPage(page)
     -- destroy old buttons
     for _,btn in pairs(pageButtons) do btn:Destroy() end
@@ -380,26 +401,33 @@ local function DrawPage(page)
         table.insert(pageButtons, btn)
     end
 
-    -- create Next button
-    local NextButton = Instance.new("TextButton")
-    NextButton.Parent = Tabs["Main"]
-    NextButton.Size = UDim2.new(0, 100, 0, 40)
-    NextButton.Position = UDim2.new(1, -110, 1, -50)
-    NextButton.BackgroundColor3 = Color3.fromRGB(20,20,20)
-    NextButton.Text = "Next"
-    NextButton.TextColor3 = Color3.fromRGB(255,255,255)
-    NextButton.Font = Enum.Font.GothamBold
-    NextButton.TextScaled = true
-    NextButton.BorderSizePixel = 0
+    -- Next Button with border fix
+    local NextButtonFrame = Instance.new("Frame")
+    NextButtonFrame.Parent = Tabs["Main"]
+    NextButtonFrame.Size = UDim2.new(0, 100, 0, 40)
+    NextButtonFrame.Position = UDim2.new(1, -110, 1, -50)
+    NextButtonFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    NextButtonFrame.BorderSizePixel = 0
 
     local nextStroke = Instance.new("UIStroke")
-    nextStroke.Parent = NextButton
+    nextStroke.Parent = NextButtonFrame
     nextStroke.Color = Color3.fromRGB(255,255,255)
     nextStroke.Thickness = 2
 
     local nextCorner = Instance.new("UICorner")
-    nextCorner.Parent = NextButton
+    nextCorner.Parent = NextButtonFrame
     nextCorner.CornerRadius = UDim.new(0,6)
+
+    local NextButton = Instance.new("TextButton")
+    NextButton.Parent = NextButtonFrame
+    NextButton.Size = UDim2.new(1,0,1,0)
+    NextButton.Position = UDim2.new(0,0,0,0)
+    NextButton.BackgroundTransparency = 1
+    NextButton.BorderSizePixel = 0
+    NextButton.Font = Enum.Font.GothamBold
+    NextButton.Text = "Next"
+    NextButton.TextColor3 = Color3.fromRGB(255,255,255)
+    NextButton.TextScaled = true
 
     NextButton.MouseButton1Click:Connect(function()
         currentPage = currentPage + 1
@@ -409,36 +437,24 @@ local function DrawPage(page)
         DrawPage(currentPage)
     end)
 
-    table.insert(pageButtons, NextButton) -- so it gets destroyed when switching pages
+    table.insert(pageButtons, NextButtonFrame) -- so it gets destroyed when switching pages
 end
-
--- ADD WHITE OUTLINE
-nextStroke.Color = Color3.fromRGB(255,255,255)
-nextStroke.Thickness = 2
-
-local nextCorner = Instance.new("UICorner")
-nextCorner.Parent = NextButton
-nextCorner.CornerRadius = UDim.new(0,6)
 
 -- =========================
 -- INITIAL DRAW
--- =========================
-DrawPage(currentPage) 
+DrawPage(currentPage)
 
 -- =========================
 -- SWITCH TAB FUNCTION
--- =========================
 local function SwitchTab(tabName)
     for name,frame in pairs(Tabs) do
         frame.Visible = (name==tabName)
     end
 end
-
 SwitchTab("Home")
 
 -- =========================
 -- SIDEBAR CLICK EVENTS
--- =========================
 local function SidebarClick(btn,tabName)
     btn.InputBegan:Connect(function(input)
         if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
@@ -456,7 +472,6 @@ SidebarClick(btnInfo,"Information")
 
 -- =========================
 -- TOGGLE MAIN FRAME
--- =========================
 Opener.InputBegan:Connect(function(input)
     if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
         MainFrame.Visible = not MainFrame.Visible
@@ -471,15 +486,12 @@ end)
 
 -- =========================
 -- DRAG OPENER
--- =========================
 local dragging=false
 local dragStart,startPos
 local dragInput
 
 local function updateDrag(input)
-    -- Make sure dragStart and startPos exist
     if not startPos or not dragStart then return end
-    -- Make sure input has a Position
     if not input.Position then return end
 
     local delta = input.Position - dragStart
