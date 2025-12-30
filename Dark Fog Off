@@ -1,0 +1,10 @@
+-- SERVICES
+local Lighting = game:GetService("Lighting")
+
+-- Reset lighting to default / normal
+Lighting.ClockTime = 14                 -- Default daytime
+Lighting.Brightness = 2                 -- Default brightness
+Lighting.GlobalShadows = true           -- Restore shadows
+Lighting.FogEnd = 100000                -- Remove fog
+Lighting.Ambient = Color3.fromRGB(128, 128, 128)        -- Default ambient
+Lighting.OutdoorAmbient = Color3.fromRGB(128, 128, 128) -- Default outdoor ambient
