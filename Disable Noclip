@@ -1,0 +1,11 @@
+local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+
+if LocalPlayer.Character then
+    for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
+        if part:IsA("BasePart") then
+            part.CanCollide = true
+        end
+    end
+end
