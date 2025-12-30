@@ -1,0 +1,13 @@
+-- Services
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local rootPart = character:WaitForChild("HumanoidRootPart")
+
+-- Create a new part
+local part = Instance.new("Part")
+part.Size = Vector3.new(5, 1, 5)  -- You can adjust the size
+part.Anchored = true               -- Anchored so it doesn't fall
+part.Position = rootPart.Position - Vector3.new(0, rootPart.Size.Y/2 + part.Size.Y/2, 0) -- Below player
+part.BrickColor = BrickColor.new("Bright red")  -- Change color if you want
+part.Parent = workspace
