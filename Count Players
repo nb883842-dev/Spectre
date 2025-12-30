@@ -1,0 +1,64 @@
+-- SERVICES
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PlayersCountGui"
+screenGui.Parent = playerGui
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 150, 0, 80) -- smaller frame
+frame.Position = UDim2.new(1, 0, 0.7, -40) -- start off-screen
+frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+frame.BorderSizePixel = 2
+frame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+frame.Parent = screenGui
+
+-- TextLabel for Player Count
+local countLabel = Instance.new("TextLabel")
+countLabel.Size = UDim2.new(1, -10, 1, -20)
+countLabel.Position = UDim2.new(0, 5, 0, 10)
+countLabel.BackgroundTransparency = 1
+countLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+countLabel.Font = Enum.Font.SourceSansBold
+countLabel.TextScaled = true
+countLabel.Text = tostring(#Players:GetPlayers()) -- initial count
+countLabel.Parent = frame
+
+-- Update player count in real-time
+RunService.RenderStepped:Connect(function()
+	countLabel.Text = tostring(#Players:GetPlayers())
+end)
+
+-- Slide In
+local slideTween = TweenService:Create(
+	frame,
+	TweenInfo.new(1.5, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+	{ Position = UDim2.new(0.8, 0, 0.7, -40) } -- partially visible
+)
+slideTween:Play()
+
+-- Fade Away after slide
+slideTween.Completed:Connect(function()
+	task.wait(1)
+
+	local fadeFrame = TweenService:Create(
+		frame,
+		TweenInfo.new(1),
+		{ BackgroundTransparency = 1 }
+	)
+
+	local fadeText = TweenService:Create(
+		countLabel,
+		TweenInfo.new(1),
+		{ TextTransparency = 1 }
+	)
+
+	fadeFrame:Play()
+	fadeText:Play()
+end)
