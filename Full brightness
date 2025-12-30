@@ -1,0 +1,10 @@
+-- SERVICES
+local Lighting = game:GetService("Lighting")
+
+-- Fullbright settings
+Lighting.ClockTime = 14         -- Set to daytime
+Lighting.Brightness = 2         -- Increase brightness
+Lighting.GlobalShadows = false  -- Remove shadows
+Lighting.FogEnd = 100000        -- Remove fog
+Lighting.Ambient = Color3.new(1, 1, 1)   -- Bright ambient
+Lighting.OutdoorAmbient = Color3.new(1, 1, 1)  -- Bright outdoor ambient
