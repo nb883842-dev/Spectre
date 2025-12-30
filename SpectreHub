@@ -19,14 +19,14 @@ ScreenGui.Parent = playerGui
 -- DRAGGABLE OPENER
 -- =========================
 local Opener = Instance.new("Frame")
-Opener.Size = UDim2.new(0, 50, 0, 50)
-Opener.Position = UDim2.new(0, 20, 0.5, -25)
+Opener.Size = UDim2.new(0,50,0,50)
+Opener.Position = UDim2.new(0,20,0.5,-25)
 Opener.BackgroundColor3 = Color3.fromRGB(0,0,0)
 Opener.BorderSizePixel = 0
 Opener.Parent = ScreenGui
 
 local OpenerCorner = Instance.new("UICorner")
-OpenerCorner.CornerRadius = UDim.new(0, 10)
+OpenerCorner.CornerRadius = UDim.new(0,10)
 OpenerCorner.Parent = Opener
 
 local OpenerStroke = Instance.new("UIStroke")
@@ -39,17 +39,24 @@ OpenerLabel.Parent = Opener
 OpenerLabel.Size = UDim2.new(1,0,1,0)
 OpenerLabel.BackgroundTransparency = 1
 OpenerLabel.Text = "S"
-OpenerLabel.TextScaled = true
-OpenerLabel.Font = Enum.Font.GothamBlack
 OpenerLabel.TextColor3 = Color3.fromRGB(255,255,255)
+OpenerLabel.Font = Enum.Font.GothamBlack
+OpenerLabel.TextScaled = true
+
+local OpenerButton = Instance.new("TextButton")
+OpenerButton.Parent = Opener
+OpenerButton.Size = UDim2.new(1,0,1,0)
+OpenerButton.BackgroundTransparency = 1
+OpenerButton.Text = ""
+OpenerButton.AutoButtonColor = false
 
 -- =========================
 -- MAIN FRAME
 -- =========================
 local MainFrame = Instance.new("Frame")
 MainFrame.Parent = ScreenGui
-MainFrame.Size = UDim2.new(0, 520, 0, 260)
-MainFrame.Position = UDim2.new(0.5, -260, 0.5, -130)
+MainFrame.Size = UDim2.new(0,520,0,260)
+MainFrame.Position = UDim2.new(0.5,-260,0.5,-130)
 MainFrame.BackgroundColor3 = Color3.fromRGB(10,10,10)
 MainFrame.BorderSizePixel = 2
 MainFrame.BorderColor3 = Color3.fromRGB(120,120,120)
@@ -184,15 +191,15 @@ CreateTab("GameHub")
 CreateTab("Information")
 
 -- =========================
--- COUNTRY MAP & PLAYER INFO
+-- PLAYER INFO
 -- =========================
 local countryMap = {["US"]="United States", ["PH"]="Philippines", ["IN"]="India", ["BD"]="Bangladesh", ["GB"]="United Kingdom"}
 local homeTab = Tabs["Home"]
 
 local PlayerInfoFrame = Instance.new("Frame")
 PlayerInfoFrame.Parent = homeTab
-PlayerInfoFrame.Size = UDim2.new(0, 300, 0, 180)
-PlayerInfoFrame.Position = UDim2.new(0, 10, 0, 10)
+PlayerInfoFrame.Size = UDim2.new(0,300,0,180)
+PlayerInfoFrame.Position = UDim2.new(0,10,0,10)
 PlayerInfoFrame.BackgroundColor3 = Color3.fromRGB(15,15,15)
 PlayerInfoFrame.BorderSizePixel = 0
 
@@ -218,10 +225,10 @@ local function CreateLabel(parent, posY)
     return lbl
 end
 
-local usernameLabel = CreateLabel(PlayerInfoFrame, 5)
-local userIdLabel = CreateLabel(PlayerInfoFrame, 40)
-local accountAgeLabel = CreateLabel(PlayerInfoFrame, 75)
-local countryLabel = CreateLabel(PlayerInfoFrame, 110)
+local usernameLabel = CreateLabel(PlayerInfoFrame,5)
+local userIdLabel = CreateLabel(PlayerInfoFrame,40)
+local accountAgeLabel = CreateLabel(PlayerInfoFrame,75)
+local countryLabel = CreateLabel(PlayerInfoFrame,110)
 
 local function CountryCodeToFlag(code)
     if not code then return "" end
@@ -234,16 +241,16 @@ local function CountryCodeToFlag(code)
 end
 
 local function UpdatePlayerInfo()
-    usernameLabel.Text = "Username: " .. player.Name
-    userIdLabel.Text = "UserId: " .. player.UserId
-    accountAgeLabel.Text = "Account Age: " .. math.floor(player.AccountAge) .. " days"
+    usernameLabel.Text = "Username: "..player.Name
+    userIdLabel.Text = "UserId: "..player.UserId
+    accountAgeLabel.Text = "Account Age: "..math.floor(player.AccountAge).." days"
     local success, countryCode = pcall(function()
         return LocalizationService:GetCountryRegionForPlayerAsync(player)
     end)
     if success then
         local countryName = countryMap[countryCode] or "Unknown"
         local flag = CountryCodeToFlag(countryCode)
-        countryLabel.Text = "Country: " .. flag .. " " .. countryName
+        countryLabel.Text = "Country: "..flag.." "..countryName
     else
         countryLabel.Text = "Country: Unknown"
     end
@@ -256,8 +263,8 @@ RunService.RenderStepped:Connect(UpdatePlayerInfo)
 local infoTab = Tabs["Information"]
 local infoText = Instance.new("TextLabel")
 infoText.Parent = infoTab
-infoText.Size = UDim2.new(1, -20, 1, -20)
-infoText.Position = UDim2.new(0, 10, 0, 10)
+infoText.Size = UDim2.new(1,-20,1,-20)
+infoText.Position = UDim2.new(0,10,0,10)
 infoText.BackgroundTransparency = 1
 infoText.TextColor3 = Color3.fromRGB(255,255,255)
 infoText.Font = Enum.Font.Gotham
@@ -268,7 +275,7 @@ infoText.TextXAlignment = Enum.TextXAlignment.Left
 infoText.TextYAlignment = Enum.TextYAlignment.Top
 
 -- =========================
--- ALL SCRIPT DATA
+-- ALL SCRIPTS
 -- =========================
 local allScripts = {
     Main = {
@@ -313,135 +320,113 @@ local allScripts = {
         {Name="Count Players", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Count%20Players"))()'},
         {Name="Freeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Freeze"))()'},
         {Name="Unfreeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Unfreeze"))()'},
-        {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Fix%20Camera"))()'},
-    },
-    SpectreScript = {
-        {Name="WIP Script 1", Code='print("Work in progress 1")'},
-        {Name="WIP Script 2", Code='print("Work in progress 2")'},
-        {Name="WIP Script 3", Code='print("Work in progress 3")'},
-        -- Add more WIP scripts here
+        {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/FixCamera"))()'},
     }
 }
 
 -- =========================
--- SCRIPT BUTTONS WITH PAGINATION
+-- SCRIPT BUTTONS
 -- =========================
-local function CreateScriptButtons(tabName)
-    local tabFrame = Tabs[tabName]
-    if tabName ~= "Home" and tabName ~= "Information" then
-        tabFrame:ClearAllChildren()
-    end
+local mainTab = Tabs["Main"]
 
-    local currentPage = 1
-    local scriptsPerPage = 10
-    local scripts = allScripts[tabName]
-    if not scripts then return end
-    local totalPages = math.ceil(#scripts / scriptsPerPage)
+local function CreateScriptButton(scriptInfo, index)
+    local btn = Instance.new("TextButton")
+    btn.Parent = mainTab
+    btn.Size = UDim2.new(0,150,0,30)
+    btn.Position = UDim2.new(0,10,0,10 + index*35)
+    btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
+    btn.BorderSizePixel = 0
+    btn.Text = scriptInfo.Name
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.Font = Enum.Font.Gotham
+    btn.TextScaled = true
 
-    local buttonContainer = Instance.new("Frame")
-    buttonContainer.Parent = tabFrame
-    buttonContainer.Size = UDim2.new(1,0,1,0)
-    buttonContainer.BackgroundTransparency = 1
+    local corner = Instance.new("UICorner")
+    corner.Parent = btn
+    corner.CornerRadius = UDim.new(0,6)
 
-    local function UpdateButtons()
-        buttonContainer:ClearAllChildren()
-        local startIndex = (currentPage - 1) * scriptsPerPage + 1
-        local endIndex = math.min(startIndex + scriptsPerPage - 1, #scripts)
-        local yPos = 0
-        for i = startIndex, endIndex do
-            local scr = scripts[i]
-            local btn = Instance.new("TextButton")
-            btn.Parent = buttonContainer
-            btn.Size = UDim2.new(1, -20, 0, 30)
-            btn.Position = UDim2.new(0, 10, 0, yPos)
-            btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
-            btn.BorderSizePixel = 1
-            btn.BorderColor3 = Color3.fromRGB(255,255,255)
-            btn.Text = scr.Name
-            btn.TextColor3 = Color3.fromRGB(255,255,255)
-            btn.Font = Enum.Font.Gotham
-            btn.TextScaled = true
+    local stroke = Instance.new("UIStroke")
+    stroke.Parent = btn
+    stroke.Color = Color3.fromRGB(255,255,255)
+    stroke.Thickness = 1
 
-            btn.MouseButton1Click:Connect(function()
-                local success, err = pcall(function()
-                    loadstring(scr.Code)()
-                end)
-                if not success then
-                    warn("Failed to execute script:", err)
-                end
-            end)
-
-            yPos = yPos + 35
+    btn.MouseButton1Click:Connect(function()
+        local success, err = pcall(function()
+            loadstring(scriptInfo.Code)()
+        end)
+        if not success then
+            warn("Error executing script:", err)
         end
+    end)
+end
 
-        -- PAGE CONTROLS
-        local prevBtn = Instance.new("TextButton")
-        prevBtn.Parent = buttonContainer
-        prevBtn.Size = UDim2.new(0, 80, 0, 30)
-        prevBtn.Position = UDim2.new(0, 10, 1, -40)
-        prevBtn.Text = "Previous"
-        prevBtn.BackgroundColor3 = Color3.fromRGB(25,25,25)
-        prevBtn.TextColor3 = Color3.fromRGB(255,255,255)
-        prevBtn.Font = Enum.Font.Gotham
-        prevBtn.TextScaled = true
-        prevBtn.MouseButton1Click:Connect(function()
-            currentPage = math.max(1, currentPage - 1)
-            UpdateButtons()
-        end)
-
-        local nextBtn = Instance.new("TextButton")
-        nextBtn.Parent = buttonContainer
-        nextBtn.Size = UDim2.new(0, 80, 0, 30)
-        nextBtn.Position = UDim2.new(1, -90, 1, -40)
-        nextBtn.Text = "Next"
-        nextBtn.BackgroundColor3 = Color3.fromRGB(25,25,25)
-        nextBtn.TextColor3 = Color3.fromRGB(255,255,255)
-        nextBtn.Font = Enum.Font.Gotham
-        nextBtn.TextScaled = true
-        nextBtn.MouseButton1Click:Connect(function()
-            currentPage = math.min(totalPages, currentPage + 1)
-            UpdateButtons()
-        end)
-    end
-
-    UpdateButtons()
+for i, scr in ipairs(allScripts.Main) do
+    CreateScriptButton(scr, i-1)
 end
 
 -- =========================
--- TAB BUTTONS FUNCTIONALITY
+-- DRAGGING OPENER
 -- =========================
-local function SetTab(tabName)
-    for name, frame in pairs(Tabs) do
-        frame.Visible = (name == tabName)
-    end
-    if tabName ~= "Home" and tabName ~= "Information" then
-        CreateScriptButtons(tabName)
-    end
-end
+local dragging = false
+local dragInput, mousePos, framePos
 
-btnHome.MouseButton1Click:Connect(function() SetTab("Home") end)
-btnMain.MouseButton1Click:Connect(function() SetTab("Main") end)
-btnSpectre.MouseButton1Click:Connect(function() SetTab("SpectreScript") end)
-btnOther.MouseButton1Click:Connect(function() SetTab("Other") end)
-btnGameHub.MouseButton1Click:Connect(function() SetTab("GameHub") end)
-btnInfo.MouseButton1Click:Connect(function() SetTab("Information") end)
-
--- =========================
--- OPENER & CLOSE
--- =========================
 Opener.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        MainFrame.Visible = not MainFrame.Visible
+        dragging = true
+        mousePos = input.Position
+        framePos = Opener.Position
+
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
     end
 end)
 
-Close.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        MainFrame.Visible = false
+Opener.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - mousePos
+        Opener.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X,
+                                    framePos.Y.Scale, framePos.Y.Offset + delta.Y)
     end
 end)
 
 -- =========================
--- INITIAL TAB
+-- TOGGLE GUI
 -- =========================
-SetTab("Home")
+OpenerButton.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
+Close.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+end)
+
+-- =========================
+-- TAB SWITCHING
+-- =========================
+local currentTab = nil
+local function SwitchTab(tabName)
+    if currentTab then
+        Tabs[currentTab].Visible = false
+    end
+    Tabs[tabName].Visible = true
+    currentTab = tabName
+end
+
+btnHome.MouseButton1Click:Connect(function() SwitchTab("Home") end)
+btnMain.MouseButton1Click:Connect(function() SwitchTab("Main") end)
+btnSpectre.MouseButton1Click:Connect(function() SwitchTab("SpectreScript") end)
+btnOther.MouseButton1Click:Connect(function() SwitchTab("Other") end)
+btnGameHub.MouseButton1Click:Connect(function() SwitchTab("GameHub") end)
+btnInfo.MouseButton1Click:Connect(function() SwitchTab("Information") end)
+
+-- Initialize first tab
+SwitchTab("Home")
