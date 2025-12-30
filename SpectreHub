@@ -328,7 +328,9 @@ local allScripts = {
 -- =========================
 local function CreateScriptButtons(tabName)
     local tabFrame = Tabs[tabName]
-    tabFrame:ClearAllChildren()
+    if tabName ~= "Home" and tabName ~= "Information" then
+        tabFrame:ClearAllChildren()
+    end
 
     local currentPage = 1
     local scriptsPerPage = 10
@@ -412,7 +414,9 @@ local function SetTab(tabName)
     for name, frame in pairs(Tabs) do
         frame.Visible = (name == tabName)
     end
-    CreateScriptButtons(tabName)
+    if tabName ~= "Home" and tabName ~= "Information" then
+        CreateScriptButtons(tabName)
+    end
 end
 
 btnHome.MouseButton1Click:Connect(function() SetTab("Home") end)
