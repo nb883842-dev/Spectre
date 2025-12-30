@@ -1,0 +1,18 @@
+-- SERVICES
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Wait for the player to load
+local function onCharacterAdded(character)
+    local playerCamera = workspace.CurrentCamera
+
+    -- Increase zoom distances
+    player.CameraMinZoomDistance = 0       -- Optional: min zoom
+    player.CameraMaxZoomDistance = 1000    -- Max zoom distance increased
+end
+
+-- Connect to character added
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+player.CharacterAdded:Connect(onCharacterAdded)
