@@ -1,0 +1,6 @@
+-- SERVICES
+local Lighting = game:GetService("Lighting")
+
+-- Remove fog
+Lighting.FogStart = 0          -- Start of fog (optional)
+Lighting.FogEnd = 100000       -- Very far away, effectively no fog
