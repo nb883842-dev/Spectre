@@ -18,11 +18,15 @@ ScreenGui.Parent = playerGui
 -- =========================
 -- DRAGGABLE OPENER
 -- =========================
-local Opener = Instance.new("Frame")
+local Opener = Instance.new("TextButton")
 Opener.Size = UDim2.new(0,50,0,50)
 Opener.Position = UDim2.new(0,20,0.5,-25)
 Opener.BackgroundColor3 = Color3.fromRGB(0,0,0)
 Opener.BorderSizePixel = 0
+Opener.Text = "S"
+Opener.TextColor3 = Color3.fromRGB(255,255,255)
+Opener.Font = Enum.Font.GothamBlack
+Opener.TextScaled = true
 Opener.Parent = ScreenGui
 
 local OpenerCorner = Instance.new("UICorner")
@@ -33,15 +37,6 @@ local OpenerStroke = Instance.new("UIStroke")
 OpenerStroke.Parent = Opener
 OpenerStroke.Color = Color3.fromRGB(255,255,255)
 OpenerStroke.Thickness = 1
-
-local OpenerLabel = Instance.new("TextLabel")
-OpenerLabel.Parent = Opener
-OpenerLabel.Size = UDim2.new(1,0,1,0)
-OpenerLabel.BackgroundTransparency = 1
-OpenerLabel.Text = "S"
-OpenerLabel.TextScaled = true
-OpenerLabel.Font = Enum.Font.GothamBlack
-OpenerLabel.TextColor3 = Color3.fromRGB(255,255,255)
 
 -- =========================
 -- MAIN FRAME
@@ -75,12 +70,16 @@ Title.TextScaled = true
 Title.TextXAlignment = Enum.TextXAlignment.Left
 Title.BackgroundTransparency = 1
 
-local Close = Instance.new("Frame")
+local Close = Instance.new("TextButton")
 Close.Parent = TopBar
 Close.Size = UDim2.new(0,36,1,0)
 Close.Position = UDim2.new(1,-36,0,0)
 Close.BackgroundColor3 = Color3.fromRGB(0,0,0)
 Close.BorderSizePixel = 0
+Close.Text = "X"
+Close.TextColor3 = Color3.fromRGB(255,255,255)
+Close.Font = Enum.Font.GothamBold
+Close.TextScaled = true
 
 local CloseStroke = Instance.new("UIStroke")
 CloseStroke.Parent = Close
@@ -90,15 +89,6 @@ CloseStroke.Thickness = 1
 local CloseCorner = Instance.new("UICorner")
 CloseCorner.CornerRadius = UDim.new(0,6)
 CloseCorner.Parent = Close
-
-local CloseLabel = Instance.new("TextLabel")
-CloseLabel.Parent = Close
-CloseLabel.Size = UDim2.new(1,0,1,0)
-CloseLabel.BackgroundTransparency = 1
-CloseLabel.Text = "X"
-CloseLabel.TextColor3 = Color3.fromRGB(255,255,255)
-CloseLabel.Font = Enum.Font.GothamBold
-CloseLabel.TextScaled = true
 
 local TitleLine = Instance.new("Frame")
 TitleLine.Parent = MainFrame
@@ -118,12 +108,16 @@ Sidebar.BackgroundColor3 = Color3.fromRGB(0,0,0)
 Sidebar.BorderSizePixel = 0
 
 local function SidebarButton(text,index)
-    local btn = Instance.new("Frame")
+    local btn = Instance.new("TextButton")
     btn.Parent = Sidebar
     btn.Size = UDim2.new(1,-10,0,30)
     btn.Position = UDim2.new(0,5,0,8 + index*32)
     btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
     btn.BorderSizePixel = 0
+    btn.Text = text
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.Font = Enum.Font.Gotham
+    btn.TextScaled = true
 
     local stroke = Instance.new("UIStroke")
     stroke.Parent = btn
@@ -133,15 +127,6 @@ local function SidebarButton(text,index)
     local corner = Instance.new("UICorner")
     corner.Parent = btn
     corner.CornerRadius = UDim.new(0,6)
-
-    local label = Instance.new("TextLabel")
-    label.Parent = btn
-    label.Size = UDim2.new(1,0,1,0)
-    label.BackgroundTransparency = 1
-    label.Text = text
-    label.TextColor3 = Color3.fromRGB(255,255,255)
-    label.Font = Enum.Font.Gotham
-    label.TextScaled = true
 
     return btn
 end
@@ -166,7 +151,6 @@ Content.BackgroundTransparency = 1
 -- TABS
 -- =========================
 local Tabs = {}
-
 local function CreateTab(name)
     local frame = Instance.new("Frame")
     frame.Parent = Content
@@ -267,7 +251,6 @@ local function SetupMainTabButtons(tabFrame,scripts)
         pageButtons = {}
         local startIdx = (page-1)*buttonsPerPage+1
         local endIdx = math.min(startIdx+buttonsPerPage-1,#scripts)
-
         local totalWidth,totalHeight = tabFrame.AbsoluteSize.X,tabFrame.AbsoluteSize.Y
         local buttonWidth = (totalWidth-(gridColumns+1)*padding-nextButtonSize.X-padding)/gridColumns
         local buttonHeight = (totalHeight-(gridRows+1)*padding-nextButtonSize.Y-padding)/gridRows
@@ -275,12 +258,16 @@ local function SetupMainTabButtons(tabFrame,scripts)
         for idx=startIdx,endIdx do
             local row = math.floor((idx-startIdx)/gridColumns)
             local col = (idx-startIdx)%gridColumns
-            local btn = Instance.new("Frame")
+            local btn = Instance.new("TextButton")
             btn.Parent = tabFrame
             btn.Size = UDim2.new(0,buttonWidth,0,buttonHeight)
             btn.Position = UDim2.new(0,padding+col*(buttonWidth+padding),0,padding+row*(buttonHeight+padding))
             btn.BackgroundColor3 = Color3.fromRGB(0,0,0)
             btn.BorderSizePixel = 0
+            btn.Text = scripts[idx].Name
+            btn.TextColor3 = Color3.fromRGB(255,255,255)
+            btn.Font = Enum.Font.Gotham
+            btn.TextScaled = true
 
             local stroke = Instance.new("UIStroke")
             stroke.Parent = btn
@@ -291,114 +278,106 @@ local function SetupMainTabButtons(tabFrame,scripts)
             corner.Parent = btn
             corner.CornerRadius = UDim.new(0,8)
 
-            local label = Instance.new("TextLabel")
-            label.Parent = btn
-            label.Size = UDim2.new(1,0,1,0)
-            label.BackgroundTransparency = 1
-            label.Text = scripts[idx].Name
-            label.TextColor3 = Color3.fromRGB(255,255,255)
-            label.Font = Enum.Font.Gotham
-            label.TextScaled = true
-
-            btn.InputBegan:Connect(function(input)
-                if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
-                    local code = scripts[idx].Code
-                    if code~="-- Work in Progress" then
-                        loadstring(code)()
-                    end
+            btn.MouseButton1Click:Connect(function()
+                local code = scripts[idx].Code
+                if code~="-- Work in Progress" then
+                    loadstring(code)()
                 end
             end)
 
             table.insert(pageButtons,btn)
         end
+
+        -- Next button
+        local NextButton = Instance.new("TextButton")
+        NextButton.Parent = tabFrame
+        NextButton.Size = UDim2.new(0,nextButtonSize.X,0,nextButtonSize.Y)
+        NextButton.Position = UDim2.new(1,-nextButtonSize.X-8,1,-nextButtonSize.Y-8)
+        NextButton.Text = "Next"
+        NextButton.TextColor3 = Color3.fromRGB(255,255,255)
+        NextButton.Font = Enum.Font.Gotham
+        NextButton.TextScaled = true
+        NextButton.BackgroundColor3 = Color3.fromRGB(0,0,0)
+        NextButton.BorderSizePixel = 0
+
+        local stroke = Instance.new("UIStroke")
+        stroke.Parent = NextButton
+        stroke.Color = Color3.fromRGB(255,255,255)
+        stroke.Thickness = 1
+
+        local corner = Instance.new("UICorner")
+        corner.Parent = NextButton
+        corner.CornerRadius = UDim.new(0,6)
+
+        NextButton.MouseButton1Click:Connect(function()
+            currentPage = currentPage + 1
+            if (currentPage-1)*buttonsPerPage >= #scripts then
+                currentPage = 1
+            end
+            DrawPage(currentPage)
+        end)
     end
-
-    local NextButton = Instance.new("TextButton")
-    NextButton.Parent = tabFrame
-    NextButton.Size = UDim2.new(0,nextButtonSize.X,0,nextButtonSize.Y)
-    NextButton.Position = UDim2.new(1,-nextButtonSize.X-padding,1,-nextButtonSize.Y-padding)
-    NextButton.BackgroundColor3 = Color3.fromRGB(20,20,20)
-    NextButton.BorderSizePixel = 0
-    NextButton.Text = "Next"
-    NextButton.TextColor3 = Color3.fromRGB(255,255,255)
-    NextButton.Font = Enum.Font.Gotham
-    NextButton.TextScaled = true
-
-    NextButton.MouseButton1Click:Connect(function()
-        currentPage = currentPage + 1
-        if (currentPage-1)*buttonsPerPage >= #scripts then
-            currentPage = 1
-        end
-        DrawPage(currentPage)
-    end)
 
     DrawPage(currentPage)
 end
 
--- Setup Main tab buttons
+-- =========================
+-- SETUP MAIN TAB
+-- =========================
 SetupMainTabButtons(Tabs["Main"], mainScripts)
 
 -- =========================
--- TAB SWITCHING
+-- BUTTON FUNCTIONS
 -- =========================
-for name,frame in pairs(Tabs) do
-    frame.Visible = false
-end
-Tabs["Home"].Visible = true
-
-local function ShowTab(name)
-    for _,frame in pairs(Tabs) do frame.Visible = false end
-    Tabs[name].Visible = true
-end
-
-btnHome.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then ShowTab("Home") end
-end)
-btnMain.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then ShowTab("Main") end
-end)
-btnSpectre.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then ShowTab("SpectreScript") end
-end)
-btnOther.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then ShowTab("Other") end
-end)
-btnGameHub.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then ShowTab("GameHub") end
-end)
-btnInfo.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then ShowTab("Information") end
+btnHome.MouseButton1Click:Connect(function()
+    for _,tab in pairs(Tabs) do tab.Visible = false end
+    Tabs["Home"].Visible = true
 end)
 
+btnMain.MouseButton1Click:Connect(function()
+    for _,tab in pairs(Tabs) do tab.Visible = false end
+    Tabs["Main"].Visible = true
+end)
+
+btnSpectre.MouseButton1Click:Connect(function()
+    for _,tab in pairs(Tabs) do tab.Visible = false end
+    Tabs["SpectreScript"].Visible = true
+end)
+
+btnOther.MouseButton1Click:Connect(function()
+    for _,tab in pairs(Tabs) do tab.Visible = false end
+    Tabs["Other"].Visible = true
+end)
+
+btnGameHub.MouseButton1Click:Connect(function()
+    for _,tab in pairs(Tabs) do tab.Visible = false end
+    Tabs["GameHub"].Visible = true
+end)
+
+btnInfo.MouseButton1Click:Connect(function()
+    for _,tab in pairs(Tabs) do tab.Visible = false end
+    Tabs["Information"].Visible = true
+end)
+
+Close.MouseButton1Click:Connect(function()
+    MainFrame.Visible = false
+end)
+
+Opener.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
 -- =========================
--- OPEN/CLOSE MAIN FRAME
+-- MAKE OPENER DRAGGABLE
 -- =========================
+local dragging = false
+local dragInput, mousePos, framePos
+
 Opener.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        MainFrame.Visible = not MainFrame.Visible
-    end
-end)
-Close.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        MainFrame.Visible = false
-    end
-end)
-
--- =========================
--- DRAGGING
--- =========================
-local dragging, dragInput, dragStart, startPos
-local function update(input)
-    local delta = input.Position - dragStart
-    MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-end
-
-TopBar.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
-        dragStart = input.Position
-        startPos = MainFrame.Position
-
+        mousePos = input.Position
+        framePos = Opener.Position
         input.Changed:Connect(function()
             if input.UserInputState == Enum.UserInputState.End then
                 dragging = false
@@ -407,14 +386,15 @@ TopBar.InputBegan:Connect(function(input)
     end
 end)
 
-TopBar.InputChanged:Connect(function(input)
+Opener.InputChanged:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseMovement then
         dragInput = input
     end
 end)
 
-UserInputService.InputChanged:Connect(function(input)
-    if input == dragInput and dragging then
-        update(input)
+RunService.RenderStepped:Connect(function()
+    if dragging and dragInput then
+        local delta = dragInput.Position - mousePos
+        Opener.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
     end
 end)
