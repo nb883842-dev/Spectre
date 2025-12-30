@@ -166,7 +166,6 @@ Content.BackgroundTransparency = 1
 -- TABS
 -- =========================
 local Tabs = {}
-
 local function CreateTab(name)
     local frame = Instance.new("Frame")
     frame.Parent = Content
@@ -185,14 +184,88 @@ CreateTab("GameHub")
 CreateTab("Information")
 
 -- =========================
--- PLAYER INFO ON HOME TAB
+-- COUNTRY MAP & PLAYER INFO
 -- =========================
--- (Same as your previous working code for username, userId, account age, country)
+local countryMap = {["US"]="United States", ["PH"]="Philippines", ["IN"]="India", ["BD"]="Bangladesh", ["GB"]="United Kingdom"}
+local homeTab = Tabs["Home"]
+
+local PlayerInfoFrame = Instance.new("Frame")
+PlayerInfoFrame.Parent = homeTab
+PlayerInfoFrame.Size = UDim2.new(0, 300, 0, 180)
+PlayerInfoFrame.Position = UDim2.new(0, 10, 0, 10)
+PlayerInfoFrame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+PlayerInfoFrame.BorderSizePixel = 0
+
+local PlayerInfoStroke = Instance.new("UIStroke")
+PlayerInfoStroke.Parent = PlayerInfoFrame
+PlayerInfoStroke.Color = Color3.fromRGB(255,255,255)
+PlayerInfoStroke.Thickness = 1
+
+local PlayerInfoCorner = Instance.new("UICorner")
+PlayerInfoCorner.Parent = PlayerInfoFrame
+PlayerInfoCorner.CornerRadius = UDim.new(0,10)
+
+local function CreateLabel(parent, posY)
+    local lbl = Instance.new("TextLabel")
+    lbl.Parent = parent
+    lbl.Size = UDim2.new(1, -10, 0, 30)
+    lbl.Position = UDim2.new(0, 5, 0, posY)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Color3.fromRGB(255,255,255)
+    lbl.Font = Enum.Font.Gotham
+    lbl.TextScaled = true
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    return lbl
+end
+
+local usernameLabel = CreateLabel(PlayerInfoFrame, 5)
+local userIdLabel = CreateLabel(PlayerInfoFrame, 40)
+local accountAgeLabel = CreateLabel(PlayerInfoFrame, 75)
+local countryLabel = CreateLabel(PlayerInfoFrame, 110)
+
+local function CountryCodeToFlag(code)
+    if not code then return "" end
+    local flag = ""
+    for i = 1, #code do
+        local c = code:sub(i,i):upper()
+        flag = flag .. utf8.char(127397 + string.byte(c))
+    end
+    return flag
+end
+
+local function UpdatePlayerInfo()
+    usernameLabel.Text = "Username: " .. player.Name
+    userIdLabel.Text = "UserId: " .. player.UserId
+    accountAgeLabel.Text = "Account Age: " .. math.floor(player.AccountAge) .. " days"
+    local success, countryCode = pcall(function()
+        return LocalizationService:GetCountryRegionForPlayerAsync(player)
+    end)
+    if success then
+        local countryName = countryMap[countryCode] or "Unknown"
+        local flag = CountryCodeToFlag(countryCode)
+        countryLabel.Text = "Country: " .. flag .. " " .. countryName
+    else
+        countryLabel.Text = "Country: Unknown"
+    end
+end
+RunService.RenderStepped:Connect(UpdatePlayerInfo)
 
 -- =========================
--- INFORMATION TAB DESCRIPTION
+-- INFORMATION TAB
 -- =========================
--- (Same as your previous working code for info text)
+local infoTab = Tabs["Information"]
+local infoText = Instance.new("TextLabel")
+infoText.Parent = infoTab
+infoText.Size = UDim2.new(1, -20, 1, -20)
+infoText.Position = UDim2.new(0, 10, 0, 10)
+infoText.BackgroundTransparency = 1
+infoText.TextColor3 = Color3.fromRGB(255,255,255)
+infoText.Font = Enum.Font.Gotham
+infoText.TextScaled = true
+infoText.TextWrapped = true
+infoText.Text = "Created in Tuesday, December 30, 2025, Created due to Ghosthub adding a Key And Inspired by the script Ghosthub"
+infoText.TextXAlignment = Enum.TextXAlignment.Left
+infoText.TextYAlignment = Enum.TextYAlignment.Top
 
 -- =========================
 -- ALL SCRIPT DATA
@@ -240,199 +313,131 @@ local allScripts = {
         {Name="Count Players", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Count%20Players"))()'},
         {Name="Freeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Freeze"))()'},
         {Name="Unfreeze", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Unfreeze"))()'},
-        {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Fix%20camera"))()'},
+        {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Fix%20Camera"))()'},
     },
     SpectreScript = {
-        {Name="Freeze Animation", Code="-- Work in Progress"},
-        {Name="Unfreeze Animation", Code="-- Work in Progress"},
-        {Name="Enable Swim", Code="-- Work in Progress"},
-        {Name="Disable Swim", Code="-- Work in Progress"},
-        {Name="Enable Spawnpoint", Code="-- Work in Progress"},
-        {Name="Disable Spawnpoint", Code="-- Work in Progress"},
-        {Name="Enable Reset", Code="-- Work in Progress"},
-        {Name="Disable Reset", Code="-- Work in Progress"},
-        {Name="Enable Hide GUI", Code="-- Work in Progress"},
-        {Name="Disable Hide GUI", Code="-- Work in Progress"},
-        {Name="Remove Face", Code="-- Work in Progress"},
-        {Name="Remove Arms", Code="-- Work in Progress"},
-        {Name="Remove Legs", Code="-- Work in Progress"},
-        {Name="Choose Player", Code="-- Work in Progress"},
-        {Name="Tool Name", Code="-- Work in Progress"},
-        {Name="God Mode", Code="-- Work in Progress"},
-        {Name="Change to R15", Code="-- Work in Progress"},
-        {Name="Change to R6", Code="-- Work in Progress"},
-    },
-        -- add all SpectreScript scripts here...
-    },
-    Other = {
-        -- add Other tab scripts
-    },
-    GameHub = {
-        -- add GameHub scripts
-    },
+        {Name="WIP Script 1", Code='print("Work in progress 1")'},
+        {Name="WIP Script 2", Code='print("Work in progress 2")'},
+        {Name="WIP Script 3", Code='print("Work in progress 3")'},
+        -- Add more WIP scripts here
+    }
 }
 
 -- =========================
--- PAGINATION & BUTTON CREATION
+-- SCRIPT BUTTONS WITH PAGINATION
 -- =========================
-local function SetupScriptsTab(tabFrame, scripts)
-    local gridRows, gridCols, padding = 4,6,8
-    local buttonsPerPage = gridRows*gridCols
-    local pageButtons = {}
+local function CreateScriptButtons(tabName)
+    local tabFrame = Tabs[tabName]
+    tabFrame:ClearAllChildren()
+
     local currentPage = 1
+    local scriptsPerPage = 10
+    local scripts = allScripts[tabName]
+    if not scripts then return end
+    local totalPages = math.ceil(#scripts / scriptsPerPage)
 
-    local function DrawPage(page)
-        for _,btn in pairs(pageButtons) do btn:Destroy() end
-        pageButtons = {}
+    local buttonContainer = Instance.new("Frame")
+    buttonContainer.Parent = tabFrame
+    buttonContainer.Size = UDim2.new(1,0,1,0)
+    buttonContainer.BackgroundTransparency = 1
 
-        local startIdx = (page-1)*buttonsPerPage + 1
-        local endIdx = math.min(startIdx+buttonsPerPage-1,#scripts)
+    local function UpdateButtons()
+        buttonContainer:ClearAllChildren()
+        local startIndex = (currentPage - 1) * scriptsPerPage + 1
+        local endIndex = math.min(startIndex + scriptsPerPage - 1, #scripts)
+        local yPos = 0
+        for i = startIndex, endIndex do
+            local scr = scripts[i]
+            local btn = Instance.new("TextButton")
+            btn.Parent = buttonContainer
+            btn.Size = UDim2.new(1, -20, 0, 30)
+            btn.Position = UDim2.new(0, 10, 0, yPos)
+            btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
+            btn.BorderSizePixel = 1
+            btn.BorderColor3 = Color3.fromRGB(255,255,255)
+            btn.Text = scr.Name
+            btn.TextColor3 = Color3.fromRGB(255,255,255)
+            btn.Font = Enum.Font.Gotham
+            btn.TextScaled = true
 
-        local totalWidth, totalHeight = tabFrame.AbsoluteSize.X, tabFrame.AbsoluteSize.Y
-        local buttonWidth = (totalWidth - (gridCols+1)*padding)/gridCols
-        local buttonHeight = (totalHeight - (gridRows+1)*padding)/gridRows
-
-        for i=startIdx,endIdx do
-            local s = scripts[i]
-            local btn = Instance.new("Frame")
-            btn.Parent = tabFrame
-            btn.Size = UDim2.new(0, buttonWidth, 0, buttonHeight)
-            btn.Position = UDim2.new(0, padding + ((i-startIdx)%gridCols)*(buttonWidth+padding),
-                                    0, padding + math.floor((i-startIdx)/gridCols)*(buttonHeight+padding))
-            btn.BackgroundColor3 = Color3.fromRGB(0,0,0)
-            btn.BorderSizePixel = 0
-
-            local stroke = Instance.new("UIStroke")
-            stroke.Parent = btn
-            stroke.Color = Color3.fromRGB(255,255,255)
-            stroke.Thickness = 1
-
-            local corner = Instance.new("UICorner")
-            corner.Parent = btn
-            corner.CornerRadius = UDim.new(0,8)
-
-            local label = Instance.new("TextLabel")
-            label.Parent = btn
-            label.Size = UDim2.new(1,0,1,0)
-            label.BackgroundTransparency = 1
-            label.Text = s.Name
-            label.TextColor3 = Color3.fromRGB(255,255,255)
-            label.Font = Enum.Font.Gotham
-            label.TextScaled = true
-
-            btn.InputBegan:Connect(function(input)
-                if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
-                    if s.Code ~= "-- Work in Progress" then
-                        loadstring(s.Code)()
-                    end
+            btn.MouseButton1Click:Connect(function()
+                local success, err = pcall(function()
+                    loadstring(scr.Code)()
+                end)
+                if not success then
+                    warn("Failed to execute script:", err)
                 end
             end)
 
-            table.insert(pageButtons, btn)
+            yPos = yPos + 35
         end
+
+        -- PAGE CONTROLS
+        local prevBtn = Instance.new("TextButton")
+        prevBtn.Parent = buttonContainer
+        prevBtn.Size = UDim2.new(0, 80, 0, 30)
+        prevBtn.Position = UDim2.new(0, 10, 1, -40)
+        prevBtn.Text = "Previous"
+        prevBtn.BackgroundColor3 = Color3.fromRGB(25,25,25)
+        prevBtn.TextColor3 = Color3.fromRGB(255,255,255)
+        prevBtn.Font = Enum.Font.Gotham
+        prevBtn.TextScaled = true
+        prevBtn.MouseButton1Click:Connect(function()
+            currentPage = math.max(1, currentPage - 1)
+            UpdateButtons()
+        end)
+
+        local nextBtn = Instance.new("TextButton")
+        nextBtn.Parent = buttonContainer
+        nextBtn.Size = UDim2.new(0, 80, 0, 30)
+        nextBtn.Position = UDim2.new(1, -90, 1, -40)
+        nextBtn.Text = "Next"
+        nextBtn.BackgroundColor3 = Color3.fromRGB(25,25,25)
+        nextBtn.TextColor3 = Color3.fromRGB(255,255,255)
+        nextBtn.Font = Enum.Font.Gotham
+        nextBtn.TextScaled = true
+        nextBtn.MouseButton1Click:Connect(function()
+            currentPage = math.min(totalPages, currentPage + 1)
+            UpdateButtons()
+        end)
     end
 
-    tabFrame:GetPropertyChangedSignal("Visible"):Connect(function()
-        if tabFrame.Visible then DrawPage(currentPage)
-        else
-            for _,btn in pairs(pageButtons) do btn:Destroy() end
-            pageButtons = {}
-        end
-    end)
+    UpdateButtons()
 end
 
 -- =========================
--- SETUP ALL SCRIPT TABS
+-- TAB BUTTONS FUNCTIONALITY
 -- =========================
-for tabName,scripts in pairs(allScripts) do
-    if Tabs[tabName] then
-        SetupScriptsTab(Tabs[tabName], scripts)
+local function SetTab(tabName)
+    for name, frame in pairs(Tabs) do
+        frame.Visible = (name == tabName)
     end
+    CreateScriptButtons(tabName)
 end
 
--- =========================
--- SWITCH TAB FUNCTION
--- =========================
-local function SwitchTab(tabName)
-    for name,frame in pairs(Tabs) do
-        frame.Visible = (name==tabName)
-    end
-end
-
-SwitchTab("Home")
+btnHome.MouseButton1Click:Connect(function() SetTab("Home") end)
+btnMain.MouseButton1Click:Connect(function() SetTab("Main") end)
+btnSpectre.MouseButton1Click:Connect(function() SetTab("SpectreScript") end)
+btnOther.MouseButton1Click:Connect(function() SetTab("Other") end)
+btnGameHub.MouseButton1Click:Connect(function() SetTab("GameHub") end)
+btnInfo.MouseButton1Click:Connect(function() SetTab("Information") end)
 
 -- =========================
--- SIDEBAR CLICK EVENTS
--- =========================
-local function SidebarClick(btn,tabName)
-    btn.InputBegan:Connect(function(input)
-        if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
-            SwitchTab(tabName)
-        end
-    end)
-end
-
-SidebarClick(btnHome,"Home")
-SidebarClick(btnMain,"Main")
-SidebarClick(btnSpectre,"SpectreScript")
-SidebarClick(btnOther,"Other")
-SidebarClick(btnGameHub,"GameHub")
-SidebarClick(btnInfo,"Information")
-
--- =========================
--- TOGGLE MAIN FRAME
+-- OPENER & CLOSE
 -- =========================
 Opener.InputBegan:Connect(function(input)
-    if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
         MainFrame.Visible = not MainFrame.Visible
     end
 end)
 
 Close.InputBegan:Connect(function(input)
-    if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
         MainFrame.Visible = false
     end
 end)
 
 -- =========================
--- DRAG OPENER
+-- INITIAL TAB
 -- =========================
-local dragging=false
-local dragStart,startPos
-local dragInput
-
-local function updateDrag(input)
-    local delta = input.Position - dragStart
-    local targetPos = UDim2.new(
-        startPos.X.Scale,
-        startPos.X.Offset+delta.X,
-        startPos.Y.Scale,
-        startPos.Y.Offset+delta.Y
-    )
-    Opener.Position = Opener.Position:Lerp(targetPos,0.3)
-end
-
-Opener.InputBegan:Connect(function(input)
-    if input.UserInputType==Enum.UserInputType.Touch or input.UserInputType==Enum.UserInputType.MouseButton1 then
-        dragging=true
-        dragStart=input.Position
-        startPos=Opener.Position
-        dragInput=input
-    end
-end)
-
-Opener.InputEnded:Connect(function(input)
-    if input==dragInput then dragging=false dragInput=nil end
-end)
-
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and input==dragInput then
-        if input.UserInputType==Enum.UserInputType.Touch or input.UserInputType==Enum.UserInputType.MouseMovement then
-            updateDrag(input)
-        end
-    end
-end)
-
-RunService.RenderStepped:Connect(function()
-    if dragging and dragInput then updateDrag(dragInput) end
-end)
+SetTab("Home")
