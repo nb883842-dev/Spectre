@@ -315,39 +315,80 @@ local mainScripts = {
     {Name="Fix Camera", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/Fix%20camera"))()'},
 }
 
+local SpectreScripts = {
+    {Name="X-ray ON", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/x-ray%20ON"))()'},
+    {Name="X-ray OFF", Code='loadstring(game:HttpGet("https://raw.githubusercontent.com/nb883842-dev/Spectre/refs/heads/main/X-ray%20Off"))()'},
+    -- add more Spectre scripts here
+}
+
+local OtherScripts = {
+    {Name="Teleport", Code='loadstring(game:HttpGet("https://pastefy.app/TeleportScript"))()'},
+    {Name="Fly", Code='loadstring(game:HttpGet("https://pastefy.app/FlyScript"))()'},
+    -- add more Other scripts here
+}
+
+local GameHubScripts = {
+    {Name="Infinite Cash", Code='loadstring(game:HttpGet("https://pastefy.app/InfiniteCash"))()'},
+    {Name="Auto Farm", Code='loadstring(game:HttpGet("https://pastefy.app/AutoFarm"))()'},
+    -- add more GameHub scripts here
+}
+
 -- To add a new script, just add another line like:
 -- {Name="New Script Name", Code='loadstring(game:HttpGet("URL_TO_SCRIPT"))()'},
 
 -- =========================
--- PAGINATION VARIABLES
--- =========================
+-- PAGINATION VARIABLES PER TAB
 local gridRows, gridColumns, padding = 4,6,8
 local buttonsPerPage = gridRows * gridColumns
-local currentPage = 1
-local pageButtons = {}
+
+local TabsScripts = {
+    Main = mainScripts,
+    SpectreScript = SpectreScripts,
+    Other = OtherScripts,
+    GameHub = GameHubScripts
+}
+
+local TabsCurrentPage = {
+    Main = 1,
+    SpectreScript = 1,
+    Other = 1,
+    GameHub = 1
+}
+
+local TabsPageButtons = {
+    Main = {},
+    SpectreScript = {},
+    Other = {},
+    GameHub = {}
+}
 
 -- =========================
--- DRAW PAGE FUNCTION (FULL FIXED)
-local function DrawPage(page)
-    -- destroy old buttons
+-- =========================
+-- DRAW PAGE FUNCTION PER TAB
+local function DrawTabPage(tabName)
+    local scripts = TabsScripts[tabName]
+    local currentPage = TabsCurrentPage[tabName]
+    local pageButtons = TabsPageButtons[tabName]
+
+    -- Destroy old buttons
     for _,btn in pairs(pageButtons) do btn:Destroy() end
-    pageButtons = {}
+    TabsPageButtons[tabName] = {}
 
-    local startIdx = (page-1)*buttonsPerPage + 1
-    local endIdx = math.min(startIdx + buttonsPerPage - 1, #mainScripts)
+    local startIdx = (currentPage-1)*buttonsPerPage + 1
+    local endIdx = math.min(startIdx + buttonsPerPage - 1, #scripts)
 
-    -- calculate buttonWidth, buttonHeight
-    local totalWidth, totalHeight = Tabs["Main"].AbsoluteSize.X, Tabs["Main"].AbsoluteSize.Y - 50
+    local tabFrame = Tabs[tabName]
+    local totalWidth, totalHeight = tabFrame.AbsoluteSize.X, tabFrame.AbsoluteSize.Y - 50
     local buttonWidth = (totalWidth-(gridColumns+1)*padding)/gridColumns
     local buttonHeight = (totalHeight-(gridRows+1)*padding)/gridRows
 
-    -- create buttons in a grid
+    -- Create buttons in a grid
     for idx=startIdx,endIdx do
         local row = math.floor((idx-startIdx)/gridColumns)
         local col = (idx-startIdx)%gridColumns
 
         local btn = Instance.new("Frame")
-        btn.Parent = Tabs["Main"]
+        btn.Parent = tabFrame
         btn.Size = UDim2.new(0, buttonWidth, 0, buttonHeight)
         btn.Position = UDim2.new(0, padding+col*(buttonWidth+padding), 0, padding+row*(buttonHeight+padding))
         btn.BackgroundColor3 = Color3.fromRGB(15,15,15)
@@ -366,26 +407,26 @@ local function DrawPage(page)
         label.Parent = btn
         label.Size = UDim2.new(1,0,1,0)
         label.BackgroundTransparency = 1
-        label.Text = mainScripts[idx].Name
+        label.Text = scripts[idx].Name
         label.TextColor3 = Color3.fromRGB(255,255,255)
         label.Font = Enum.Font.Gotham
         label.TextScaled = true
 
         btn.InputBegan:Connect(function(input)
-            if input.UserInputType==Enum.UserInputType.MouseButton1 or input.UserInputType==Enum.UserInputType.Touch then
-                local code = mainScripts[idx].Code
-                if code~="-- Work in Progress" then
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                local code = scripts[idx].Code
+                if code ~= "-- Work in Progress" then
                     loadstring(code)()
                 end
             end
         end)
 
-        table.insert(pageButtons, btn)
+        table.insert(TabsPageButtons[tabName], btn)
     end
 
-    -- Next Button with border fix
+    -- Next Button
     local NextButtonFrame = Instance.new("Frame")
-    NextButtonFrame.Parent = Tabs["Main"]
+    NextButtonFrame.Parent = tabFrame
     NextButtonFrame.Size = UDim2.new(0, 100, 0, 40)
     NextButtonFrame.Position = UDim2.new(1, -110, 1, -50)
     NextButtonFrame.BackgroundColor3 = Color3.fromRGB(20,20,20)
@@ -403,30 +444,29 @@ local function DrawPage(page)
     local NextButton = Instance.new("TextButton")
     NextButton.Parent = NextButtonFrame
     NextButton.Size = UDim2.new(1,0,1,0)
-    NextButton.Position = UDim2.new(0,0,0,0)
     NextButton.BackgroundTransparency = 1
-    NextButton.BorderSizePixel = 0
     NextButton.Font = Enum.Font.GothamBold
     NextButton.Text = "Next"
     NextButton.TextColor3 = Color3.fromRGB(255,255,255)
     NextButton.TextScaled = true
 
     NextButton.MouseButton1Click:Connect(function()
-        currentPage = currentPage + 1
-        if (currentPage - 1) * buttonsPerPage + 1 > #mainScripts then
-            currentPage = 1
+        TabsCurrentPage[tabName] = TabsCurrentPage[tabName] + 1
+        if (TabsCurrentPage[tabName]-1)*buttonsPerPage + 1 > #scripts then
+            TabsCurrentPage[tabName] = 1
         end
-        DrawPage(currentPage)
+        DrawTabPage(tabName)
     end)
 
-    table.insert(pageButtons, NextButtonFrame) -- so it gets destroyed when switching pages
+    table.insert(TabsPageButtons[tabName], NextButtonFrame)
 end
 
 -- =========================
--- INITIAL DRAW
-DrawPage(currentPage)
-
--- =========================
+-- INITIAL DRAW FOR ALL SCRIPT TABS
+DrawTabPage("Main")
+DrawTabPage("SpectreScript")
+DrawTabPage("Other")
+DrawTabPage("GameHub")
 -- SWITCH TAB FUNCTION
 local function SwitchTab(tabName)
     for name,frame in pairs(Tabs) do
