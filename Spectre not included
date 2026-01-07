@@ -1,101 +1,107 @@
--- Spectre UI Library
+-- Spectre UI Library (Minecraft Style)
+-- Made to be loaded via loadstring(game:HttpGet())
 
 local Spectre = {}
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
--- ScreenGui
+-- Create ScreenGui once
 local gui = Instance.new("ScreenGui")
 gui.Name = "SpectreUI"
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Layout
-local layoutY = 0.4
+-- Vertical stacking
+local nextY = 0.45
 
-function Spectre:AddButton(config)
-    config = config or {}
-    local name = config.Name or "Button"
-    local callback = config.Callback or function() end
+-- Add Button
+function Spectre:AddButton(name, callback)
+	name = name or "Button"
+	callback = callback or function() end
 
-    -- Button
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.fromScale(0.22, 0.08)
-    button.Position = UDim2.fromScale(0.39, layoutY)
-    button.Text = ""
-    button.AutoButtonColor = false
-    button.BackgroundTransparency = 1
-    button.Parent = gui
+	-- Button base
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.fromScale(0.22, 0.085)
+	button.Position = UDim2.fromScale(0.39, nextY)
+	button.Text = ""
+	button.AutoButtonColor = false
+	button.BackgroundTransparency = 1
+	button.Parent = gui
 
-    layoutY += 0.09
+	nextY += 0.09
 
-    -- Texture (Minecraft)
-    local texture = Instance.new("ImageLabel")
-    texture.Size = UDim2.fromScale(1, 1)
-    texture.BackgroundTransparency = 1
-    texture.Image = "rbxassetid://13957565085"
-    texture.ScaleType = Enum.ScaleType.Tile
-    texture.TileSize = UDim2.fromOffset(32, 32)
-    texture.Parent = button
+	-- Minecraft texture
+	local texture = Instance.new("ImageLabel")
+	texture.Size = UDim2.fromScale(1, 1)
+	texture.BackgroundTransparency = 1
+	texture.Image = "rbxassetid://13957565085"
+	texture.ScaleType = Enum.ScaleType.Tile
+	texture.TileSize = UDim2.fromOffset(32, 32)
+	texture.Parent = button
 
-    -- Fill
-    local fill = Instance.new("Frame")
-    fill.Size = UDim2.new(1, -4, 1, -4)
-    fill.Position = UDim2.fromOffset(2, 2)
-    fill.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
-    fill.BorderSizePixel = 0
-    fill.Parent = texture
+	-- Inner fill
+	local fill = Instance.new("Frame")
+	fill.Size = UDim2.new(1, -4, 1, -4)
+	fill.Position = UDim2.fromOffset(2, 2)
+	fill.BackgroundColor3 = Color3.fromRGB(120, 120, 120)
+	fill.BorderSizePixel = 0
+	fill.Parent = texture
 
-    -- Highlights
-    local top = Instance.new("Frame")
-    top.Size = UDim2.new(1, -4, 0, 3)
-    top.Position = UDim2.fromOffset(2, 2)
-    top.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
-    top.BorderSizePixel = 0
-    top.Parent = texture
+	-- Highlights
+	local top = Instance.new("Frame")
+	top.Size = UDim2.new(1, -4, 0, 3)
+	top.Position = UDim2.fromOffset(2, 2)
+	top.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
+	top.BorderSizePixel = 0
+	top.Parent = texture
 
-    local left = top:Clone()
-    left.Size = UDim2.new(0, 3, 1, -4)
-    left.Parent = texture
+	local left = Instance.new("Frame")
+	left.Size = UDim2.new(0, 3, 1, -4)
+	left.Position = UDim2.fromOffset(2, 2)
+	left.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
+	left.BorderSizePixel = 0
+	left.Parent = texture
 
-    -- Shadows
-    local bottom = Instance.new("Frame")
-    bottom.Size = UDim2.new(1, -4, 0, 3)
-    bottom.Position = UDim2.new(0, 2, 1, -5)
-    bottom.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    bottom.BorderSizePixel = 0
-    bottom.Parent = texture
+	-- Shadows
+	local bottom = Instance.new("Frame")
+	bottom.Size = UDim2.new(1, -4, 0, 3)
+	bottom.Position = UDim2.new(0, 2, 1, -5)
+	bottom.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	bottom.BorderSizePixel = 0
+	bottom.Parent = texture
 
-    local right = bottom:Clone()
-    right.Size = UDim2.new(0, 3, 1, -4)
-    right.Position = UDim2.new(1, -5, 0, 2)
-    right.Parent = texture
+	local right = Instance.new("Frame")
+	right.Size = UDim2.new(0, 3, 1, -4)
+	right.Position = UDim2.new(1, -5, 0, 2)
+	right.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	right.BorderSizePixel = 0
+	right.Parent = texture
 
-    -- TEXT (must be ABOVE texture)
-    local label = Instance.new("TextLabel")
-    label.Size = UDim2.fromScale(1, 1)
-    label.BackgroundTransparency = 1
-    label.Text = name
-    label.TextColor3 = Color3.new(1, 1, 1)
-    label.Font = Enum.Font.Arcade
-    label.TextScaled = true
-    label.ZIndex = 5
-    label.Parent = button
+	-- Text (ON TOP)
+	local label = Instance.new("TextLabel")
+	label.Size = UDim2.fromScale(1, 1)
+	label.BackgroundTransparency = 1
+	label.Text = name
+	label.TextColor3 = Color3.new(1, 1, 1)
+	label.Font = Enum.Font.Arcade
+	label.TextScaled = true
+	label.ZIndex = 5
+	label.Parent = button
 
-    -- Press effect
-    button.MouseButton1Down:Connect(function()
-        texture.Position = UDim2.fromOffset(2, 2)
-    end)
+	-- Press effect
+	button.MouseButton1Down:Connect(function()
+		texture.Position = UDim2.fromOffset(2, 2)
+	end)
 
-    button.MouseButton1Up:Connect(function()
-        texture.Position = UDim2.fromOffset(0, 0)
-    end)
+	button.MouseButton1Up:Connect(function()
+		texture.Position = UDim2.fromOffset(0, 0)
+	end)
 
-    -- Callback
-    button.MouseButton1Click:Connect(function()
-        callback()
-    end)
+	-- Callback
+	button.MouseButton1Click:Connect(function()
+		callback()
+	end)
 end
 
 return Spectre
