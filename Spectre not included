@@ -12,10 +12,10 @@ gui.Name = "SpectreUI"
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
--- Vertical stacking
+-- Vertical stacking start
 local nextY = 0.45
 
--- Add Button
+-- Add Button function
 function Spectre:AddButton(name, callback)
 	name = name or "Button"
 	callback = callback or function() end
@@ -29,7 +29,7 @@ function Spectre:AddButton(name, callback)
 	button.BackgroundTransparency = 1
 	button.Parent = gui
 
-	nextY += 0.09
+	nextY = nextY + 0.09
 
 	-- Minecraft texture
 	local texture = Instance.new("ImageLabel")
@@ -78,18 +78,18 @@ function Spectre:AddButton(name, callback)
 	right.BorderSizePixel = 0
 	right.Parent = texture
 
-	-- Text (ON TOP)
+	-- Text label on top
 	local label = Instance.new("TextLabel")
-	label.Size = UDim2.fromScale(1, 1)
+	label.Size = UDim2.new(1, 1)
 	label.BackgroundTransparency = 1
 	label.Text = name
-	label.TextColor3 = Color3.new(1, 1, 1)
+	label.TextColor3 = Color3.fromRGB(255, 255, 255)
 	label.Font = Enum.Font.Arcade
 	label.TextScaled = true
 	label.ZIndex = 5
 	label.Parent = button
 
-	-- Press effect
+	-- Press visual effect
 	button.MouseButton1Down:Connect(function()
 		texture.Position = UDim2.fromOffset(2, 2)
 	end)
