@@ -1,0 +1,64 @@
+local closeColPanel = Instance.new("TextButton")
+closeColPanel.Size = UDim2.new(1, -10, 0, 30)
+closeColPanel.Position = UDim2.new(0, 5, 1, -35)
+closeColPanel.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+closeColPanel.TextColor3 = Color3.new(1, 1, 1)
+closeColPanel.Text = "Close"
+closeColPanel.Font = Enum.Font.GothamBold
+closeColPanel.TextSize = 12
+closeColPanel.BorderSizePixel = 0
+closeColPanel.Parent = colorPanel
+
+local ccCorner = Instance.new("UICorner")
+ccCorner.CornerRadius = UDim.new(0, 6)
+ccCorner.Parent = closeColPanel
+
+closeColPanel.MouseButton1Click:Connect(function()
+    colorPanel.Visible = false
+    mode = "None"
+    setActiveButton(nil)
+end)
+
+local selectionBox = Instance.new("SelectionBox")
+selectionBox.LineThickness = 0.05
+selectionBox.Color3 = Color3.fromRGB(0, 255, 255)
+selectionBox.Parent = screenGui
+
+RunService.RenderStepped:Connect(function()
+    if draggingHandle and selectedPart then
+        local currentMousePos = mouse.Hit.Position
+        local delta = currentMousePos - dragStart
+        local direction = draggingHandle.direction
+        
+        if mode == "Move" then
+            local movement = direction * direction:Dot(delta)
+            selectedPart.Position = partStartPos + movement
+            updateHandlePositions()
+            
+        elseif mode == "Resize" then
+            local sizeChange = direction * direction:Dot(delta) * 2
+            
+            if resizeMode == 0 then
+                selectedPart.Size = (partStartSize + sizeChange):Max(Vector3.new(0.5, 0.5, 0.5))
+                selectedPart.Position = partStartPos + (direction * direction:Dot(delta))
+            else
+                local snapDist = math.floor(direction:Dot(delta) / resizeMode + 0.5) * resizeMode
+                local snappedChange = direction * snapDist * 2
+                selectedPart.Size = (partStartSize + snappedChange):Max(Vector3.new(0.5, 0.5, 0.5))
+                selectedPart.Position = partStartPos + direction * snapDistend
+            updateHandlePositions()
+        end
+    end
+    
+    if selectedPart and not selectedPart.Parent then
+        selectedPart = nil
+        selectionBox.Adornee = nil
+        clearResizeHandles()
+    end
+    
+    if selectedPart and (mode == "Move" or mode == "Resize") and #resizeHandles == 0 then
+        createResizeHandles()
+    elseif mode ~= "Move" and mode ~= "Resize" then
+        clearResizeHandles()
+    end
+end)
